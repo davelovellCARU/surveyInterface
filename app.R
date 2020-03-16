@@ -71,6 +71,7 @@ ui = fluidPage(splitLayout(
     ## Initialise reactiveValues :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     values <- reactiveValues()
     values$whichPage <- 1
+    values$questions <- "Gender: \r\n"
     
     ### Reactives --------------------------------------------------------------------------------------------
     ### Only want element 1 of 'whichKey' - element 2 only exists to differentiate values
@@ -160,6 +161,15 @@ ui = fluidPage(splitLayout(
                          thisOut <- values$pressHistory[0:(max(0,(length(values$pressHistory)-1)))]
                        return(thisOut)
                      })
+                   }
+                   
+                   ### Use a different set of questions depending on the answer to question 1
+                   if(vect[1] == 1) {
+                     values$questions <- adultQuestions
+                     values$responses <- adultResponses
+                   } else if(vect[1] == 2) {
+                     values$questions <- childQuestions
+                     values$responses <- childResponses
                    }
                    
                    ### Push pressHistory through this function, printing the rendered result ------------------------
