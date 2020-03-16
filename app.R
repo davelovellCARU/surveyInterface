@@ -54,7 +54,7 @@ ui = fluidPage(splitLayout(
             replace(.,is.na(.),"(Missing)")
           young <- statusLevels[responseVector[11]] %>% 
             replace(.,is.na(.),"(Missing)")
-          adult <- c(statuslevels, "complicated")[responseVector[12]] %>% 
+          adult <- c(statusLevels, "complicated")[responseVector[12]] %>% 
             replace(.,is.na(.),"(Missing)")
           
           chn <- c("yes", "no", "exploring", "complicated")[responseVector[13]] %>% 
