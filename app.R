@@ -92,7 +92,8 @@ ui = fluidPage(splitLayout(
     ### When a new key is pressed:
     observeEvent(input$whichKey,
                  {
-                   # The questions on the adult survey
+                   ### Question and Response Data -----------------------------------------------------------------
+                   ## Adult questions ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                    adultQuestions <- 
                      c("Gender:",
                        "Age Group:",
@@ -125,6 +126,7 @@ ui = fluidPage(splitLayout(
                    
                    colnames(adultResponses) <- adultQuestions
                    
+                   ## Child question :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                    childQuestions <- 
                      c("Gender",
                        "Regularity",
@@ -141,15 +143,14 @@ ui = fluidPage(splitLayout(
                    
                    colnames(childResponese) <- childQuestions
                    
-                   # If press histrory has 'overflowed', reset it.
+                   ### `pressHistory`` handilng ----------------------------------------------------------------------
+                   ## Flip the page if all questions are answered, then set pH to length 0 :::::::::::::::::::::::::
                    if(length(values$pressHistory) == length(adultQuestions)) {
-                     message("here we are flipping the page")
                      values$whichPage <- values$whichPage + 1
                      values$pressHistory <- numeric(0)
                      
                    } else {
-                     message("doing something else")
-                     # Otherwise assign the value of numPress() to it
+                   ## If pH not 'full', concatenate latest keypress num to pressHistory ::::::::::::::::::::::::::::
                    values$pressHistory <-
                      numPress() %>% 
                      (function(newNum){
@@ -161,27 +162,22 @@ ui = fluidPage(splitLayout(
                      })
                    }
                    
-                   message(class(values$pressHistory))
-                   
+                   ### Push pressHistory through this function, printing the rendered result ------------------------
                    output$textBlock <-
                      renderText({
                        values$pressHistory %>% 
-                         (function(vect){
-
-                           
+                         (function(vect) {
                            if (length(vect) > 0) {
                              
                              if(length(vect) <= length(adultQuestions)) {
                             
                              outputString = ""
-                             for (i in (1:length(vect))) 
-                              {
+                             for (i in (1:length(vect))) {
                                
                                outputString <- paste0(outputString,
                                                       adultQuestions[i],
                                                       adultResponses[vect[i], i],
                                                       "\r\n")
-                    
                              } #------------------------------------------- for (i in (1:length(vect))) 
                              
                              if(length(vect) == length(adultQuestions)){
@@ -189,15 +185,9 @@ ui = fluidPage(splitLayout(
                                outputString <- paste0(outputString, "\r\nPress any key to load next survey")
                              }
                              
-                            } else outputString <- "Gender:\r\n length(os) = > length(aq)" 
-                             # else #--------------------------------------- if(length(vect) <= length(adultQuestions))
-                             #  {
-                             #    outputString <- "Gender:\r\n"
-                             #    values$whichPage <- values$whichPage + 1
-                             #    values$pressHistory <- character(0)
-                             #  }
-                             # 
-                             } else outputString <- "Gender:\r\n" #---------- if (length(vect) > 0)
+                            } else outputString <- "Gender:\r\n THIS SHOULDN'T BE HAPPENING" 
+                            
+                           } else outputString <- "Survey Type:\r\n" #---------- if (length(vect) > 0)
                                               
                            return(outputString)
                                               
