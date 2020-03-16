@@ -73,6 +73,7 @@ ui = fluidPage(splitLayout(
     ## Initialise reactiveValues :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     values <- reactiveValues()
     values$whichPage <- 1
+    pageReactor = reactive({values$whichPage}) 
     values$questions <- "Gender: \r\n"
     
     ### Reactives --------------------------------------------------------------------------------------------
@@ -83,7 +84,7 @@ ui = fluidPage(splitLayout(
     ### PDF iframe html text - updates when input$whichPage changes
     ###  Wrapping my reactiveValues in a reactive wrapper
     ###  Somehow that doesn't sound like the right thing to do 
-    pageReactor = reactive({values$whichPage}) 
+
     
     output$pdfViewer = 
       renderText({
@@ -150,7 +151,7 @@ ui = fluidPage(splitLayout(
                    
                    ### `pressHistory`` handilng ----------------------------------------------------------------------
                    ## Flip the page if all questions are answered, then set pH to length 0 :::::::::::::::::::::::::
-                   if(length(values$pressHistory) == (length(values$questions) + 1)) {
+                   if(length(values$pressHistory) >= (length(values$questions) + 1)) {
                      values$whichPage <- values$whichPage + 1
                      values$pressHistory <- numeric(0)
                      
@@ -160,31 +161,34 @@ ui = fluidPage(splitLayout(
                      numPress() %>% 
                      (function(newNum){
                        # A non-assigned key is pressed, or one of the 'standard' keys:
-                       if(length(newNum) == 0 || is.na(newNum) || newNum < 900) thisOut <- c(values$pressHistory,newNum) else
+                       if(length(newNum) == 0 || is.na(newNum) || newNum != 901) thisOut <- c(values$pressHistory,newNum) else
                          # Over 900 is `backspace` - so take last val off of pressHistory
-                         thisOut <- values$pressHistory[0:(max(0,(length(values$pressHistory)-1)))]
+                         if (length(values$pressHistory) > 0) thisOut <- values$pressHistory[0:(max(0,(length(values$pressHistory)-1)))] else {
+                           thisOut <- numeric(0)
+                           values$whichPage <- max(1,(values$whichPage - 1))
+                         }
                        return(thisOut)
                      })
                    }
                    
                    ### Use a different set of questions depending on the answer to question 1
-                   if(length(values$pressHistory) > 0 &&
-                      values$pressHistory[1] %in% c(1,2)) {
+                   if(length(values$pressHistory) > 0) {
+                     if(values$pressHistory[1] %in% c(1,2)) {
                      if(values$pressHistory[1] == 1) {
                        values$questions <- adultQuestions
                        values$responses <- adultResponses
                      } else {
                        values$questions <- childQuestions
                        values$responses <- childResponses
-                     } 
+                     }
                    } else {
                      values$questions <- character(0)
                      values$responses <- character(0)
                      values$pressHistory <- numeric(0)
-                     values$whichPage <- values$whichPage + 1
-                   } # ---------------------------------------- if(values$pressHistory > 0)
+                     values$whichPage <- values$whichPage + 1 # this is done elsewhere, because 0 length q's are filled up instantly
+                   }} # ---------------------------------------- if(values$pressHistory > 0)
                    
-                   if(values$pressHistory[1] %in% c(1,2)) {
+                   if(length(values$pressHistory) > 0 && values$pressHistory[1] %in% c(1,2)) {
                      ### Push pressHistory through this function, printing the rendered result ------------------------
                      output$textBlock <-
                        renderText({
