@@ -181,7 +181,12 @@ ui = fluidPage(splitLayout(
                              
                              if(length(vect) <= length(values$questions)) {
                             
-                             outputString = ""
+                             outputString <- 
+                               paste0("Survey Type:\r\n",
+                                     {if(vect[1]==1) "Adult"
+                                       else if(vect[1]==2) "Child"
+                                       else NA})
+                             
                              for (i in (2:length(vect))) {
                                
                                outputString <- paste0(outputString,
