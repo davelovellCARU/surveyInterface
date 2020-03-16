@@ -53,8 +53,9 @@ ui = fluidPage(splitLayout(
     ### Sever Scripts -------------------------------------------------------------------------------------
     
     ### Split pdf into pages ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    pdfDir = choose.dir(here("www/pdfs"),"Choose folder to process PDFs from")
-    pdfFile = dir(pdfDir, full.names =  TRUE)[dir(pdfDir, full.names = TRUE) %>% str_detect("\\.pdf$")][1]
+    # pdfDir = choose.dir(here("www/pdfs"),"Choose folder to process PDFs from")
+    pdfDir <- "O:\\WCC\\Learning and Development\\Research\\PROJECT - Portsmouth 2019 onwards\\Strand 1 - Leaders and Attenders Surveys\\Data\\surveyInterface\\www\\pdfs\\TotsInTowSouthseaStLukes"
+    pdfFile <- dir(pdfDir, full.names =  TRUE)[dir(pdfDir, full.names = TRUE) %>% str_detect("\\.pdf$")][1]
     
     suppressWarnings(dir.create(paste0(pdfDir,"/pdfPages")))
     pdfLength = pdf_length(pdfFile)
@@ -167,55 +168,59 @@ ui = fluidPage(splitLayout(
                    }
                    
                    ### Use a different set of questions depending on the answer to question 1
-                   if(length(values$pressHistory) > 0) {
+                   if(length(values$pressHistory) > 0 &&
+                      values$pressHistory[1] %in% c(1,2)) {
                      if(values$pressHistory[1] == 1) {
                        values$questions <- adultQuestions
                        values$responses <- adultResponses
-                     } else if(values$pressHistory[1] == 2) {
+                     } else {
                        values$questions <- childQuestions
                        values$responses <- childResponses
-                     } else {
-                       values$questions <- character(0)
-                       values$response <- character(0)
-                     }
+                     } 
+                   } else {
+                     values$questions <- character(0)
+                     values$responses <- character(0)
+                     values$pressHistory <- numeric(0)
+                     values$whichPage <- values$whichPage + 1
                    } # ---------------------------------------- if(values$pressHistory > 0)
                    
-                   ### Push pressHistory through this function, printing the rendered result ------------------------
-                   output$textBlock <-
-                     renderText({
-                       values$pressHistory %>% 
-                         (function(vect) {
-                           if (length(vect) > 0) {
-                             
-                             if(length(vect) <= length(values$questions) + 1) {
-                            
-                             outputString <- 
-                               paste0("Survey Type:\r\n",
-                                     {if(vect[1]==1) "Adult"
-                                       else if(vect[1]==2) "Child"
-                                       else NA},
-                                     "\r\n")
-                             
-                             if(length(vect) > 1) {
-                              for (i in (1:(length(vect) - 1))) {
-                                 outputString %<>% paste0(values$questions[i],
-                                                          values$responses[vect[i+1], i],
-                                                          "\r\n")
-                              } #------------------------------------------- for (i in (1:length(vect))) 
-                             } # -------------------------------------------- if (length(vect) > 1)
-                             if(length(vect) == length(values$questions) + 1){
+                   if(values$pressHistory[1] %in% c(1,2)) {
+                     ### Push pressHistory through this function, printing the rendered result ------------------------
+                     output$textBlock <-
+                       renderText({
+                         values$pressHistory %>% 
+                           (function(vect) {
+                             if (length(vect) > 0) {
                                
-                               outputString <- paste0(outputString, "\r\nPress any key to load next survey")
-                             }
-                             
-                            } else outputString <- "Gender:\r\n THIS SHOULDN'T BE HAPPENING" 
-                            
-                           } else outputString <- "Survey Type:\r\n" #---------- if (length(vect) > 0)
-                                              
-                           return(outputString)
-                                              
-                         })
+                               if(length(vect) <= length(values$questions) + 1) {
+                              
+                               outputString <- 
+                                 paste0("Survey Type:\r\n",
+                                       {if(vect[1]==1) "Adult"
+                                         else if(vect[1]==2) "Child"
+                                         else NA},
+                                       "\r\n")
+                               
+                               if(length(vect) > 1) {
+                                for (i in (1:(length(vect) - 1))) {
+                                   outputString %<>% paste0(values$questions[i],
+                                                            values$responses[vect[i+1], i],
+                                                            "\r\n")
+                                } #------------------------------------------- for (i in (1:length(vect))) 
+                               } # -------------------------------------------- if (length(vect) > 1)
+                               if(length(vect) == length(values$questions) + 1){
+                                 
+                                 outputString <- paste0(outputString, "\r\nPress any key to load next survey")
+                               }
+                               
+                              } else outputString <- "Gender:\r\n THIS SHOULDN'T BE HAPPENING" 
+                              
+                             } else outputString <- "Survey Type:\r\n" #---------- if (length(vect) > 0)
+                                                
+                             return(outputString)
+                           })
                      })
+                   }
                  })
     
     }

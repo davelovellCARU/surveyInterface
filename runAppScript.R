@@ -2,5 +2,5 @@
 require("here")
 require("shiny")
 
-runApp(here::here("app.R"),port = 6056,
+runApp("app.R",port = 6056,
        display.mode = "normal")
