@@ -27,6 +27,117 @@ ui = fluidPage(splitLayout(
     
     ### Functions ----------------------------------------------------
     
+    ### saveInput - turn the numerical vector into a oneRow tibble compatible with existing data
+    saveInput <-
+      function(responseVector) {
+        if(responseVector[1] == 1){
+          gen <- c("female", "male")[responseVector[2]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          age <- c("11-15", "16-17", "18-24", "25-29" ,"30-44", 
+                   "45-54", "55-64", "65-74", "75+", "(Missing)")[responseVector[3]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          reg <- c("almostAlways", "halfTheTime", "fewTimesAYear", "firstTime", "visiting")[responseVector[4]]  %>% 
+            replace(.,is.na(.),"(Missing)")
+          hE <- c("yes", "noneOfThese", "currentlyStudent", "apprenticeship")[responseVector[5]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          eth <- c("white", "black", "asian", "other", "ratherNotSay", "(Missing)")[responseVector[6]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          chb <- c("nonChurched", "deChurched", "churched", "blending")[responseVector[7]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          tra = c("moved", "team", "better", "grewUp", "other")[responseVector[8]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          
+          statusLevels <- c("notPart", "wasPart", "stoppedHere")
+          child <- statusLevels[responseVector[9]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          teen <- statusLevels[responseVector[10]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          young <- statusLevels[responseVector[11]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          adult <- c(statuslevels, "complicated")[responseVector[12]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          
+          chn <- c("yes", "no", "exploring", "complicated")[responseVector[13]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          bhere <- c("yes", "no", "rediscover")[responseVector[14]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          
+          
+          oneRowTib <- 
+            tibble(responseId = NA,
+                   plantId = NA,
+                   transferOther = NA,
+                   statusChild = factor(child, levels = statusLevels),
+                   statusTeen = factor(teen, levels = statusLevels),
+                   statusYoung = factor(young, levels = statusLevels), 
+                   statusAdult = factor(adult, levels = c(statusLevels, "complicated")), 
+                   complicatedReason = NA,
+                   note = NA,
+                   class1 = NA,
+                   class2 = NA,
+                   responseType = factor("child", levels = c("child", "adult")),
+                   ageGroup = factor(age, levels = c("0-5", "6-10", "11-15", "16-17", "18-24",
+                                                     "25-29", "30-34", "35-44", "45-54",
+                                                     "55-64", "65-74", "75+", "(Missing)"),
+                                     ordered = TRUE),
+                   gender = factor(gen, levels = c("male", "female", "(Missing)")),
+                   regularity = factor(reg, levels = c("visiting", "firstTime", "fewTimesAYear",
+                                                       "halfTheTime", "almostAlways", "(Missing)")),
+                   churchBackground = factor(chb, levels = c("nonChurched", "deChurched", "churched", "blending", "(Missing)")),
+                   transferReason = factor(tra, levels = c("moved", "team", "better", "grewUp", "other", "(Missing)")),
+                   yearStarted = NA,
+                   yearReturned = NA,
+                   higherEducation = factor(he, levels = c("yes", "noneOfThese", "currentlyStudent", "apprenticeship", "(Missing)")),
+                   ethnicity = factor(eth, levels = c("white", "black", "asian", "other", "ratherNotSay", "(Missing)")),
+                   christian = factor(chn, levels = c("yes", "no", "exploring", "complicated")),
+                   becameHere = factor(bhere, levels = c("yes", "no", "rediscover")))
+        }
+        else if(responseVector[1] == 2){ # Child Survey -----------------------------------
+          
+          gen <- c("male", "female")[responseVector[2]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          age <- c("0-5", "6-10")[responseVector[3]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          reg <- c("almostAlways", "halfTheTime", "fewTimesAYear", "firstTime", "visiting")[responseVector[4]]  %>% 
+            replace(.,is.na(.),"(Missing)")
+          chb <- c("nonChurched", "deChurched", "churched", "blending")[responseVector[5]] %>% 
+            replace(.,is.na(.),"(Missing)")
+          tra = c("moved", "team", "better", "grewUp", "other")[responseVector[6]] %>% 
+            replace(.,is.na(.),"(Missing)") 
+          
+          oneRowTib <- 
+            tibble(responseId = NA,
+                   plantId = NA,
+                   transferOther = NA,
+                   statusChild = "(Missing)",
+                   statusTeen = "(Missing)",
+                   statusYoung = "(Missing)",
+                   statusAdult = "(Missing)", 
+                   complicatedReason = NA,
+                   note = NA,
+                   class1 = NA,
+                   class2 = NA,
+                   responseType = factor("child", levels = c("child", "adult")),
+                   ageGroup = factor(age, levels = c("0-5", "6-10", "11-15", "16-17", "18-24",
+                                                     "25-29", "30-34", "35-44", "45-54",
+                                                     "55-64", "65-74", "75+"),
+                                     ordered = TRUE)
+                   gender = factor(gen, levels = c("male", "female", "(Missing)")),
+                   regularity = factor(reg, levels = c("visiting", "firstTime", "fewTimesAYear",
+                                                       "halfTheTime", "almostAlways", "(Missing)")),
+                   churchBackground = factor(chb, levels = c("nonChurched", "deChurched", "churched", "blending", "(Missing)")),
+                   transferReason = factor(tra, levels = c("moved", "team", "better", "grewUp", "other", "(Missing)")),
+                   yearStarted = NA,
+                   yearReturned = NA,
+                   higherEducation = NA,
+                   ethnicity = NA,
+                   christian = NA,
+                   becameHere = NA)
+        }
+        else stop("Trying to save .rdat of survey that is neither adult nor child type.")
+        
+        return(oneRowTib)
+      }
     ### inputToNum function turn keystroke data into a number between 
     ### 1 and 9 for presses on the homekeys (and "'")
     inputToNum <-
@@ -116,17 +227,17 @@ ui = fluidPage(splitLayout(
                        "Become here?") %>% 
                      paste0("\r\n")
                    
-                   adultResponses <- c("Female", "Male", "Other", rep(NA,7),
+                   adultResponses <- c("Female", "Male", "Other", rep(NA, 7),
                                        "11-15", "16-17", "18-24", "25-29", "30-34", "35-44", "45-54", "55-64", "65-74", "75+",
-                                       "Almost always", "About half the time", "A few times a year", rep(NA,7),
-                                       "Yes", "No", "I am currently a student", "I have done vocational training/apprenticeship", rep(NA,6),
-                                       "White", "Black", "Asian", "Other", "Prefer not to say", rep(NA,5),
-                                       "First church been part of", "Returning after a break", "Moved straight from another", "Part of another church as well", rep(NA,6),
-                                       "Because I moved here", "Planting team", "Changed church", "Since Child", "Other", rep(NA,5),
-                                       rep(c("Not part of a church", "Was part of something", "Stopped during this period", rep(NA,7)),3),
-                                       "Not part of a church", "All my life", "Left, came back", "Copmlicated", rep(NA,6),
-                                       "Yes", "No", "Exploring", "Complicated", rep(NA,6),
-                                       "Yes", "No", "Rediscover", rep(NA,7)) %>%
+                                       "Almost always", "About half the time", "A few times a year", rep(NA, 7),
+                                       "Yes", "No", "I am currently a student", "I have done vocational training/apprenticeship", rep(NA, 6),
+                                       "White", "Black", "Asian", "Other", "Prefer not to say", rep(NA, 5),
+                                       "First church been part of", "Returning after a break", "Moved straight from another", "Part of another church as well", rep(NA, 6),
+                                       "Because I moved here", "Planting team", "Changed church", "Since Child", "Other", rep(NA, 5),
+                                       rep(c("Not part of a church", "Was part of something", "Stopped during this period", rep(NA, 7)), 3),
+                                       "Not part of a church", "All my life", "Left, came back", "Copmlicated", rep(NA, 6),
+                                       "Yes", "No", "Exploring", "Complicated", rep(NA, 6),
+                                       "Yes", "No", "Rediscover", rep(NA, 7)) %>%
                      matrix(ncol = 10, byrow = TRUE) %>%
                      t
                    
@@ -135,12 +246,14 @@ ui = fluidPage(splitLayout(
                    ## Child question :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                    childQuestions <- 
                      c("Gender",
+                       "Age ('a' for 0-5, 's' for 6-10):",
                        "Regularity",
                        "Church History",
                        "Join Reason") %>% 
                      paste0("\r\n")
                    
-                   childResponses <- c("BOY", "GIRL", rep(NA,3),
+                   childResponses <- c("BOY", "GIRL", rep(NA, 3),
+                                       "0-5", "6-10", rep(NA, 3),
                                        "Almost always", "About half", "Few times", "First or second", "Just visiting",
                                        "Non-churched", "De-churched", "Churched", "Blending", NA, 
                                        "Moved here", "team", "better for us", "before five", "Other") %>% 
@@ -152,7 +265,7 @@ ui = fluidPage(splitLayout(
                    ### `pressHistory`` handilng ----------------------------------------------------------------------
                    ## Flip the page if all questions are answered, then set pH to length 0 :::::::::::::::::::::::::
                    if(length(values$pressHistory) >= (length(values$questions) + 1)) {
-                     saveRDS(values$pressHistory,paste0("survey",as.character(values$whichPage),".rdat"))
+                     saveRDS(saveInput(values$pressHistory),paste0("survey", as.character(values$whichPage), ".rdat"))
                      values$whichPage <- values$whichPage + 1
                      values$pressHistory <- numeric(0)
                      
@@ -184,7 +297,7 @@ ui = fluidPage(splitLayout(
                      }
                    } else {
                      
-                     saveRDS(values$pressHistory,paste0("survey",as.character(values$whichPage),".rdat"))
+                     # saveRDS(values$pressHistory,paste0("survey",as.character(values$whichPage),".rdat"))
                      
                      values$questions <- character(0)
                      values$responses <- character(0)
