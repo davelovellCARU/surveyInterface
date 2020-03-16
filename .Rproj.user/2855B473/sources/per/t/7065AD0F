@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1584118113279.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3629052676",
+    "id" : "7065AD0F",
+    "lastKnownWriteTime" : 1584116690,
+    "last_content_update" : 1584116690,
+    "path" : "O:/WCC/Learning and Development/Research/PROJECT - Portsmouth 2019 onwards/Strand 1 - Leaders and Attenders Surveys/Data/SurveyInterface/app.R",
+    "project_path" : "app.R",
+    "properties" : {
+        "cursorPosition" : "176,33",
+        "scrollLine" : "144",
+        "source_window_id" : ""
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
