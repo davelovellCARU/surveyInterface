@@ -152,6 +152,7 @@ ui = fluidPage(splitLayout(
                    ### `pressHistory`` handilng ----------------------------------------------------------------------
                    ## Flip the page if all questions are answered, then set pH to length 0 :::::::::::::::::::::::::
                    if(length(values$pressHistory) >= (length(values$questions) + 1)) {
+                     saveRDS(values$pressHistory,paste0("survey",as.character(values$whichPage),".rdat"))
                      values$whichPage <- values$whichPage + 1
                      values$pressHistory <- numeric(0)
                      
@@ -182,10 +183,13 @@ ui = fluidPage(splitLayout(
                        values$responses <- childResponses
                      }
                    } else {
+                     
+                     saveRDS(values$pressHistory,paste0("survey",as.character(values$whichPage),".rdat"))
+                     
                      values$questions <- character(0)
                      values$responses <- character(0)
                      values$pressHistory <- numeric(0)
-                     values$whichPage <- values$whichPage + 1 # this is done elsewhere, because 0 length q's are filled up instantly
+                     values$whichPage <- values$whichPage + 1 
                    }} # ---------------------------------------- if(values$pressHistory > 0)
                    
                    if(length(values$pressHistory) > 0 && values$pressHistory[1] %in% c(1,2)) {
