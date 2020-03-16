@@ -121,7 +121,7 @@ ui = fluidPage(splitLayout(
                    ageGroup = factor(age, levels = c("0-5", "6-10", "11-15", "16-17", "18-24",
                                                      "25-29", "30-34", "35-44", "45-54",
                                                      "55-64", "65-74", "75+"),
-                                     ordered = TRUE)
+                                     ordered = TRUE),
                    gender = factor(gen, levels = c("male", "female", "(Missing)")),
                    regularity = factor(reg, levels = c("visiting", "firstTime", "fewTimesAYear",
                                                        "halfTheTime", "almostAlways", "(Missing)")),
