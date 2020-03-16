@@ -146,7 +146,7 @@ ui = fluidPage(splitLayout(
                    
                    ### `pressHistory`` handilng ----------------------------------------------------------------------
                    ## Flip the page if all questions are answered, then set pH to length 0 :::::::::::::::::::::::::
-                   if(length(values$pressHistory) == length(adultQuestions)) {
+                   if(length(values$pressHistory) == length(values$questions)) {
                      values$whichPage <- values$whichPage + 1
                      values$pressHistory <- numeric(0)
                      
@@ -179,18 +179,18 @@ ui = fluidPage(splitLayout(
                          (function(vect) {
                            if (length(vect) > 0) {
                              
-                             if(length(vect) <= length(adultQuestions)) {
+                             if(length(vect) <= length(values$questions)) {
                             
                              outputString = ""
-                             for (i in (1:length(vect))) {
+                             for (i in (2:length(vect))) {
                                
                                outputString <- paste0(outputString,
                                                       adultQuestions[i],
-                                                      adultResponses[vect[i], i],
+                                                      values$responses[vect[i], i],
                                                       "\r\n")
                              } #------------------------------------------- for (i in (1:length(vect))) 
                              
-                             if(length(vect) == length(adultQuestions)){
+                             if(length(vect) == length(values$questions)){
                                
                                outputString <- paste0(outputString, "\r\nPress any key to load next survey")
                              }
