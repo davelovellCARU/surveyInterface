@@ -94,19 +94,20 @@ ui = fluidPage(splitLayout(
                  {
                    # The questions on the adult survey
                    adultQuestions <- 
-                     c("Gender:\r\n",
-                       "Age Group:\r\n",
-                       "Regularity:\r\n",
-                       "University:\r\n",
-                       "Ethnicity:\r\n",
-                       "Church History:\r\n",
-                       "Join Reason:\r\n",
-                       "0-10:\r\n",
-                       "11-17:\r\n",
-                       "18-24:\r\n",
-                       "25+:\r\n",
-                       "Christian:\r\n",
-                       "Become here?\r\n")
+                     c("Gender:",
+                       "Age Group:",
+                       "Regularity:",
+                       "University:",
+                       "Ethnicity:",
+                       "Church History:",
+                       "Join Reason:",
+                       "0-10:",
+                       "11-17:",
+                       "18-24:",
+                       "25+:",
+                       "Christian:",
+                       "Become here?") %>% 
+                     paste0("\r\n")
                    
                    adultResponses <- c("Female", "Male", "Other", rep(NA,7),
                                        "11-15", "16-17", "18-24", "25-29", "30-34", "35-44", "45-54", "55-64", "65-74", "75+",
@@ -121,6 +122,9 @@ ui = fluidPage(splitLayout(
                                        "Yes", "No", "Rediscover", rep(NA,7)) %>%
                      matrix(ncol = 10, byrow = TRUE) %>%
                      t
+                   
+                   childQuestions <- 
+                     c("Gender")
                    
                    colnames(adultResponses) = adultQuestions
                    
@@ -180,7 +184,7 @@ ui = fluidPage(splitLayout(
                              #    values$pressHistory <- character(0)
                              #  }
                              # 
-                             } else outputString <- "Gender:\r\n length(os) == 0" #---------- if (length(vect) > 0)
+                             } else outputString <- "Gender:\r\n" #---------- if (length(vect) > 0)
                                               
                            return(outputString)
                                               
