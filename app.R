@@ -179,7 +179,7 @@ ui = fluidPage(splitLayout(
                          (function(vect) {
                            if (length(vect) > 0) {
                              
-                             if(length(vect) <= length(values$questions)) {
+                             if(length(vect) <= length(values$questions) + 1) {
                             
                              outputString <- 
                                paste0("Survey Type:\r\n",
@@ -195,7 +195,7 @@ ui = fluidPage(splitLayout(
                                                       "\r\n")
                              } #------------------------------------------- for (i in (1:length(vect))) 
                              
-                             if(length(vect) == length(values$questions)){
+                             if(length(vect) == length(values$questions) + 1){
                                
                                outputString <- paste0(outputString, "\r\nPress any key to load next survey")
                              }
