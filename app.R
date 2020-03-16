@@ -87,7 +87,7 @@ ui = fluidPage(splitLayout(
                    transferReason = factor(tra, levels = c("moved", "team", "better", "grewUp", "other", "(Missing)")),
                    yearStarted = NA,
                    yearReturned = NA,
-                   higherEducation = factor(he, levels = c("yes", "noneOfThese", "currentlyStudent", "apprenticeship", "(Missing)")),
+                   higherEducation = factor(hE, levels = c("yes", "noneOfThese", "currentlyStudent", "apprenticeship", "(Missing)")),
                    ethnicity = factor(eth, levels = c("white", "black", "asian", "other", "ratherNotSay", "(Missing)")),
                    christian = factor(chn, levels = c("yes", "no", "exploring", "complicated")),
                    becameHere = factor(bhere, levels = c("yes", "no", "rediscover")))
@@ -138,6 +138,7 @@ ui = fluidPage(splitLayout(
         
         return(oneRowTib)
       }
+    
     ### inputToNum function turn keystroke data into a number between 
     ### 1 and 9 for presses on the homekeys (and "'")
     inputToNum <-
@@ -171,6 +172,7 @@ ui = fluidPage(splitLayout(
     suppressWarnings(dir.create(paste0(pdfDir,"/pdfPages")))
     pdfLength = pdf_length(pdfFile)
     
+
     pdf <- tibble(pageNo = 1:pdfLength)
     pdf <- pdf %>% 
       mutate(outputFile = map_chr(pageNo,
