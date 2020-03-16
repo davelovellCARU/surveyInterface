@@ -123,10 +123,23 @@ ui = fluidPage(splitLayout(
                      matrix(ncol = 10, byrow = TRUE) %>%
                      t
                    
-                   childQuestions <- 
-                     c("Gender")
+                   colnames(adultResponses) <- adultQuestions
                    
-                   colnames(adultResponses) = adultQuestions
+                   childQuestions <- 
+                     c("Gender",
+                       "Regularity",
+                       "Church History",
+                       "Join Reason") %>% 
+                     paste0("\r\n")
+                   
+                   childResponses <- c("BOY", "GIRL", rep(NA,3),
+                                       "Almost always", "About half", "Few times", "First or second", "Just visiting",
+                                       "Non-churched", "De-churched", "Churched", "Blending", NA, 
+                                       "Moved here", "team", "better for us", "before five", "Other") %>% 
+                     matrix(ncol = 5, byrow = TRUE) %>% 
+                     t
+                   
+                   colnames(childResponese) <- childQuestions
                    
                    # If press histrory has 'overflowed', reset it.
                    if(length(values$pressHistory) == length(adultQuestions)) {
