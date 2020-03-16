@@ -1,5 +1,6 @@
-library(shiny)
-library(here)
+library("shiny")
+library("here")
+library("magrittr")
 
 
 ui = fluidPage(splitLayout(
@@ -148,7 +149,7 @@ ui = fluidPage(splitLayout(
                    
                    ### `pressHistory`` handilng ----------------------------------------------------------------------
                    ## Flip the page if all questions are answered, then set pH to length 0 :::::::::::::::::::::::::
-                   if(length(values$pressHistory) == length(values$questions) + 1) {
+                   if(length(values$pressHistory) == (length(values$questions) + 1)) {
                      values$whichPage <- values$whichPage + 1
                      values$pressHistory <- numeric(0)
                      
@@ -166,13 +167,15 @@ ui = fluidPage(splitLayout(
                    }
                    
                    ### Use a different set of questions depending on the answer to question 1
-                   if(values$pressHistory[1] == 1) {
-                     values$questions <- adultQuestions
-                     values$responses <- adultResponses
-                   } else if(values$pressHistory[1] == 2) {
-                     values$questions <- childQuestions
-                     values$responses <- childResponses
-                   }
+                   if(length(values$pressHistory) > 0) {
+                     if(values$pressHistory[1] == 1) {
+                       values$questions <- adultQuestions
+                       values$responses <- adultResponses
+                     } else if(values$pressHistory[1] == 2) {
+                       values$questions <- childQuestions
+                       values$responses <- childResponses
+                     }
+                   } # ---------------------------------------- if(values$pressHistory > 0)
                    
                    ### Push pressHistory through this function, printing the rendered result ------------------------
                    output$textBlock <-
@@ -190,13 +193,13 @@ ui = fluidPage(splitLayout(
                                        else NA},
                                      "\r\n")
                              
-                             for (i in (2:length(vect))) {
-                               outputString <- paste0(outputString,
-                                                      adultQuestions[i],
-                                                      values$responses[vect[i], i],
-                                                      "\r\n")
-                             } #------------------------------------------- for (i in (1:length(vect))) 
-                             
+                             if(length(vect) > 1) {
+                              for (i in (1:(length(vect) - 1))) {
+                                 outputString %<>% paste0(values$questions[i],
+                                                          values$responses[vect[i+1], i],
+                                                          "\r\n")
+                              } #------------------------------------------- for (i in (1:length(vect))) 
+                             } # -------------------------------------------- if (length(vect) > 1)
                              if(length(vect) == length(values$questions) + 1){
                                
                                outputString <- paste0(outputString, "\r\nPress any key to load next survey")
