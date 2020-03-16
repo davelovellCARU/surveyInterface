@@ -89,6 +89,8 @@ ui = fluidPage(splitLayout(
       })
     
     output$keyNum = renderText({numPress()})
+    
+    output$textBlock <- renderText({"Survey Type:\r\n"})
   
     ### When a new key is pressed:
     observeEvent(input$whichKey,
@@ -142,7 +144,7 @@ ui = fluidPage(splitLayout(
                      matrix(ncol = 5, byrow = TRUE) %>% 
                      t
                    
-                   colnames(childResponese) <- childQuestions
+                   colnames(childResponses) <- childQuestions
                    
                    ### `pressHistory`` handilng ----------------------------------------------------------------------
                    ## Flip the page if all questions are answered, then set pH to length 0 :::::::::::::::::::::::::
