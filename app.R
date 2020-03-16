@@ -174,6 +174,9 @@ ui = fluidPage(splitLayout(
                      } else if(values$pressHistory[1] == 2) {
                        values$questions <- childQuestions
                        values$responses <- childResponses
+                     } else {
+                       values$questions <- character(0)
+                       values$response <- character(0)
                      }
                    } # ---------------------------------------- if(values$pressHistory > 0)
                    
