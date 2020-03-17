@@ -25,6 +25,7 @@ ui = fluidPage(splitLayout(
     library(pdftools)
     library(tidyverse)
     
+    suppressWarnings(dir.create("surveys"))
     ### Functions ----------------------------------------------------
     
     ### saveInput - turn the numerical vector into a oneRow tibble compatible with existing data
@@ -267,7 +268,7 @@ ui = fluidPage(splitLayout(
                    ### `pressHistory`` handilng ----------------------------------------------------------------------
                    ## Flip the page if all questions are answered, then set pH to length 0 :::::::::::::::::::::::::
                    if(length(values$pressHistory) >= (length(values$questions) + 1)) {
-                     saveRDS(saveInput(values$pressHistory),paste0("survey", as.character(values$whichPage), ".rdat"))
+                     saveRDS(saveInput(values$pressHistory),paste0("surveys/survey", as.character(values$whichPage), ".rdat"))
                      values$whichPage <- values$whichPage + 1
                      values$pressHistory <- numeric(0)
                      
