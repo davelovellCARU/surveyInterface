@@ -182,8 +182,14 @@ ui = fluidPage(splitLayout(
                str_replace_all("\\\\","/"))
     
     ## Initialise reactiveValues :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    # start at the pdF that hasn't been created
+    startHere <- 
+      dir(paste0(pdfDir,"/output")) %>% 
+          str_remove("\\D") %>% 
+          as.numeric %>% 
+          max + 1
     values <- reactiveValues()
-    values$whichPage <- 1
+    values$whichPage <- startHere
     pageReactor = reactive({values$whichPage}) 
     values$questions <- "Gender: \r\n"
     
