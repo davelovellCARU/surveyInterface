@@ -264,7 +264,7 @@ ui = fluidPage(splitLayout(
                    ### `pressHistory`` handilng ----------------------------------------------------------------------
                    ## Flip the page if all questions are answered, then set pH to length 0 :::::::::::::::::::::::::
                    if(length(values$pressHistory) >= (length(values$questions) + 1)) {
-                     saveRDS(saveInput(values$pressHistory),paste0("surveys/survey", as.character(values$whichPage), ".rdat"))
+                     saveRDS(saveInput(values$pressHistory),paste0(pdfDir,"/output/survey", as.character(values$whichPage), ".rdat"))
                      values$whichPage <- values$whichPage + 1
                      values$pressHistory <- numeric(0)
                      
