@@ -167,7 +167,7 @@ ui = fluidPage(splitLayout(
     
     ### Split pdf into pages ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # pdfDir = choose.dir(here("www/pdfs"),"Choose folder to process PDFs from")
-    pdfDir <- choose.dir(here::here("www\\pdfs"))
+    pdfDir <- choose.dir(here::here())
     pdfFiles <- dir(pdfDir, full.names =  TRUE)[dir(pdfDir, full.names = TRUE) %>% str_detect("\\.pdf$")]
     
     suppressWarnings(dir.create(paste0(pdfDir,"/output")))
@@ -246,14 +246,14 @@ ui = fluidPage(splitLayout(
                    ## Child question :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                    childQuestions <- 
                      c("Gender",
-                       "Age ('a' for 0-5, 's' for 6-10):",
+                       "Age ('a' for 0-4, 's' for 5-10):",
                        "Regularity",
                        "Church History",
                        "Join Reason") %>% 
                      paste0("\r\n")
                    
                    childResponses <- c("BOY", "GIRL", rep(NA, 3),
-                                       "0-5", "6-10", rep(NA, 3),
+                                       "0-4", "5-10", rep(NA, 3),
                                        "Almost always", "About half", "Few times", "First or second", "Just visiting",
                                        "Non-churched", "De-churched", "Churched", "Blending", NA, 
                                        "Moved here", "team", "better for us", "before five", "Other") %>% 
