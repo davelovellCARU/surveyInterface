@@ -242,7 +242,7 @@ ui = fluidPage(splitLayout(
                    
                    adultResponses <- c("Female", "Male", "Other", rep(NA, 7),
                                        "11-15", "16-17", "18-24", "25-29", "30-34", "35-44", "45-54", "55-64", "65-74", "75+",
-                                       "Almost always", "About half the time", "A few times a year", rep(NA, 7),
+                                       "Almost always", "About half the time", "A few times a year", "First time", "Visiting", rep(NA, 5),
                                        "Yes", "No", "I am currently a student", "I have done vocational training/apprenticeship", rep(NA, 6),
                                        "White", "Black", "Asian", "Other", "Prefer not to say", rep(NA, 5),
                                        "First church been part of", "Returning after a break", "Moved straight from another", "Part of another church as well", rep(NA, 6),
