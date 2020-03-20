@@ -170,7 +170,7 @@ ui = fluidPage(splitLayout(
     pdfDir <- dir.choose("O:\\WCC\\Learning and Development\\Research\\PROJECT - Portsmouth 2019 onwards\\Strand 1 - Leaders and Attenders Surveys\\Data\\surveyInterface\\www\\pdfs")
     pdfFiles <- dir(pdfDir, full.names =  TRUE)[dir(pdfDir, full.names = TRUE) %>% str_detect("\\.pdf$")]
     
-    suppressWarnings(dir.create(paste0(pdfDir,"/pdfPages")))
+    suppressWarnings(dir.create(paste0(pdfDir,"/output")))
     pdfLength = pdf_length(pdfFile)
     
 
