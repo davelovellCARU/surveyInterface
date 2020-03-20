@@ -186,11 +186,17 @@ ui = fluidPage(splitLayout(
     # start at the pdF that hasn't been created
     startHere <- 
       dir(paste0(pdfDir,"/output")) %>% 
-          str_remove("\\D") %>% 
+          str_remove_all("\\D") %>% 
           as.numeric %>% 
           max + 1
+    
     values <- reactiveValues()
+    
+    if(!is.na(startHere) && startHere > -Inf){
     values$whichPage <- startHere
+    } else {
+      values$whichPage <- 1
+    }
     pageReactor = reactive({values$whichPage}) 
     values$questions <- "Gender: \r\n"
     
