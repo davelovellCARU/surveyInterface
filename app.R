@@ -157,6 +157,7 @@ ui = fluidPage(splitLayout(
                      "76" = 7, #l
                      "186" = 8, #;
                      "192" = 9, #'
+                     "219" = 10,#]
                      "72" = NA, #h (always yields NA)
                      "8" = 901) # `backspace`
           }
