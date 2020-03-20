@@ -177,7 +177,8 @@ ui = fluidPage(splitLayout(
       mutate(outputFile = map_chr(pageNo,
                                   ~{paste0(pdfDir,"\\", as.character(.), ".pdf")})) %>%
       mutate(http = paste0("http:\\\\127.0.0.1:6056\\",
-                           str_remove(outputFile, "^.+\\\\www\\\\")) %>% 
+                           str_remove(outputFile, "^.+\\\\www\\\\") %>% 
+                             str_replace_all("[:space:]","%20")) %>% 
                str_replace_all("\\\\","/"))
     
     ## Initialise reactiveValues :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
