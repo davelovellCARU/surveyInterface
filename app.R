@@ -76,7 +76,7 @@ ui = fluidPage(splitLayout(
                    note = NA,
                    class1 = NA,
                    class2 = NA,
-                   responseType = factor("child", levels = c("child", "adult")),
+                   responseType = factor("adult", levels = c("child", "adult")),
                    ageGroup = factor(age, levels = c("0-5", "6-10", "11-15", "16-17", "18-24",
                                                      "25-29", "30-34", "35-44", "45-54",
                                                      "55-64", "65-74", "75+", "(Missing)"),
